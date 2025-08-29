@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://cdn.tailwindcss.com"></script>
+
+</head>
+
+<body>
+    <div
+        className="relative w-72 h-96 rounded-2xl overflow-hidden bg-gradient-radial from-[#92F6F9] via-[#E662FF] to-[#4F92FF] shadow-xl">
+        {/* Gradient overlays */}
+        <div
+            className="absolute inset-0 bg-gradient-to-tr from-[#FF6699]/60 via-[#FFFBA5]/50 to-[#26FF9A]/50 mix-blend-overlay" />
+        <div
+            className="absolute inset-0 bg-gradient-to-bl from-[#4F92FF]/40 via-[#92F6F9]/40 to-[#E662FF]/40 mix-blend-overlay" />
+
+        <div className="relative z-10 flex items-center justify-center h-full text-white font-semibold text-xl">
+            Holo Effect Card
+        </div>
+    </div>
+
+
+</body>
+
+</html>
