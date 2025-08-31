@@ -6,7 +6,7 @@ import { Sparkles } from "lucide-react";
 const defaultCards = [
   {
     icon: <Sparkles className="size-4 text-blue-300" />,
-    title: "Featured",
+    title: "Js",
     description: "Discover amazing content",
     date: "Just now",
     iconClassName: "text-blue-500",
@@ -16,7 +16,7 @@ const defaultCards = [
   },
   {
     icon: <Sparkles className="size-4 text-blue-300" />,
-    title: "Popular",
+    title: "Nextjs",
     description: "Trending this week",
     date: "2 days ago",
     iconClassName: "text-blue-500",
@@ -26,7 +26,7 @@ const defaultCards = [
   },
   {
     icon: <Sparkles className="size-4 text-blue-300" />,
-    title: "New",
+    title: "React",
     description: "Latest updates and features",
     date: "Today",
     iconClassName: "text-blue-500",
