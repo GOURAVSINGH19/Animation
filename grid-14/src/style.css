@@ -1,0 +1,92 @@
+@import "tailwindcss";
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body,
+html {
+  width: 100%;
+  height: 100%;
+  background-color: #fff;
+  scrollbar-width: none;
+}
+
+::-webkit-scrollbar {
+  display: none;
+}
+
+.js .loading::before,
+.js .loading::after {
+  content: "";
+  position: fixed;
+  z-index: 10000;
+}
+
+.js .loading::before {
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: var(--color-bg);
+}
+
+.js .loading::after {
+  top: 50%;
+  left: 50%;
+  width: 100px;
+  height: 1px;
+  margin: 0 0 0 -50px;
+  background: var(--color-link);
+  animation: loaderAnim 1.5s ease-in-out infinite alternate forwards;
+}
+
+@keyframes loaderAnim {
+  0% {
+    transform: scaleX(0);
+    transform-origin: 0% 50%;
+  }
+
+  50% {
+    transform: scaleX(1);
+    transform-origin: 0% 50%;
+  }
+
+  50.1% {
+    transform: scaleX(1);
+    transform-origin: 100% 50%;
+  }
+
+  100% {
+    transform: scaleX(0);
+    transform-origin: 100% 50%;
+  }
+}
+
+.nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 2rem;
+  height: 10vh;
+  position: fixed;
+  top: 0;
+  box-sizing: content-box;
+  overflow: hidden;
+}
+
+.main {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 5rem;
+  margin-top: 5px;
+  min-height: 20vh;
+  flex-direction: column;
+}
+.header_top{
+    margin-top: 10vh;
+}
