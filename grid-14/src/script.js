@@ -1,178 +1,116 @@
-import * as THREE from 'three';
-import Lenis from 'lenis';
-import { calcFov, debounce } from './utils';
-import vertexShader from "./shaders/Vertex.glsl"
-import fragmentShader from "./shaders/fragment.glsl"
-const canvas = document.querySelector('.webgl');
+import "./style.css";
+import * as THREE from "three";
+import vertexShader from "./shaders/Vertex.glsl";
+import fragmentShader from "./shaders/Fragment.glsl";
+import Lenis from "lenis";
 
-let scroll = {
-    scrollY: window.scrollY,
-    scrollVelocity: 0,
-};
+const lenis = new Lenis();
 
-const lenis = new Lenis({
-    smoothWheel: true,
-    orientation: "vertical",
-});
-
-lenis.on("scroll", (e) => {
-    scroll.scrollY = window.scrollY;
-    scroll.scrollVelocity = e.velocity;
-});
-
-function scrollRaf(time) {
-    lenis.raf(time);
-    requestAnimationFrame(scrollRaf);
+function raf(time) {
+  lenis.raf(time);
+  requestAnimationFrame(raf);
 }
 
-requestAnimationFrame(scrollRaf);
+requestAnimationFrame(raf);
 
+let scene, camera, renderer, scrollY, totaltarget;
 
 const sizes = {
-    width: window.innerWidth,
-    height: window.innerHeight
-}
+  width: window.innerWidth,
+  height: window.innerHeight,
+};
 
-
-const CAMERA_POS = 500;
-// scene
-let scene = new THREE.Scene();
-
-// camera setup
-const camera = new THREE.PerspectiveCamera(
-    50,
-    window.innerWidth / window.innerHeight,
-    10,
-    1000
-);
-camera.position.z = CAMERA_POS;
-camera.fov = calcFov(CAMERA_POS);
+camera = new THREE.PerspectiveCamera(50, sizes.width / sizes.height, 100, 1000);
+camera.position.z = 500;
+camera.fov = (180 * (2 * Math.atan(window.innerHeight / 2 / 500))) / Math.PI;
 camera.updateProjectionMatrix();
 
-let observer;
-let mediaStore;
+scene = new THREE.Scene();
 
-observer = new IntersectionObserver(
-    (entries) => {
-        entries.forEach((entry) => {
-            const index = entry.target.dataset.index;
+let webglImages = [];
 
-            if (index) {
-                mediaStore[parseInt(index)].isInView = entry.isIntersecting;
-            }
-        });
-    },
-    { rootMargin: "500px 0px 500px 0px" }
-);
+function setimageArray() {
+  const images = [...document.querySelectorAll("[data-webgl-media]")];
 
+  const imageGeo = new THREE.PlaneGeometry(1, 1, 30, 30);
+  webglImages = images.map((img, i) => {
+    img.style.opacity = 0;
+    const { width, height, top, left } = img.getBoundingClientRect();
 
-const setMediaStore = (scrollY) => {
-    const media = [...document.querySelectorAll("[data-img]")];
-
-    console.log(media)
-    mediaStore = media.map((media, i) => {
-        observer.observe(media);
-
-        media.dataset.index = String(i);
-
-        const bounds = media.getBoundingClientRect();
-        const imageMaterial = material.clone();
-
-        const imageMesh = new THREE.Mesh(geometry, imageMaterial);
-        imageMesh.scale.set(bounds.width, bounds.height, 1);
-
-        if (!(bounds.top >= 0 && bounds.top <= window.innerHeight)) {
-            imageMesh.position.y = window.innerHeight;
-        }
-
-        scene.add(imageMesh);
-
-        return {
-            media,
-            material: imageMaterial,
-            mesh: imageMesh,
-            width: bounds.width,
-            height: bounds.height,
-            top: bounds.top + scrollY,
-            left: bounds.left,
-            isInView: bounds.top >= -500 && bounds.top <= window.innerHeight + 500,
-        };
-    });
-};
-
-
-
-let geometry = new THREE.PlaneGeometry(1, 1, 100, 100);
-let material = new THREE.ShaderMaterial({
-    uniforms: {
-        uResolution: {
-            value: new THREE.Vector2(window.innerWidth, window.innerHeight),
+    const imageMaterial = new THREE.ShaderMaterial({
+      vertexShader,
+      fragmentShader,
+      glslVersion: THREE.GLSL3,
+      uniforms: {
+        scrollProgress: {
+          value: 0,
         },
-        uTime: { value: 0 },
-        uScrollVelocity: { value: 0 },
-        uEdgeSize: { value: 0.001 },
-    },
-    vertexShader,
-    fragmentShader,
-    glslVersion: THREE.GLSL3,
-});
+      },
+    });
+    const mesh = new THREE.Mesh(imageGeo, imageMaterial);
+    mesh.scale.set(width, height, 1);
 
-// renderer setup
-const renderer = new THREE.WebGLRenderer({
-    canvas: canvas,
-    alpha: true,
-    antialias: true,
-});
-renderer.setSize(window.innerWidth, window.innerHeight);
+    mesh.position.x = left - sizes.width / 2 + width / 2;
+    mesh.position.y = -top + sizes.height / 2 - height / 2;
+    scene.add(mesh);
+
+    return {
+      mesh,
+      material: imageMaterial,
+      img,
+    };
+  });
+}
+setimageArray();
+const canvas = document.querySelector(".webgl");
+renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: true });
+renderer.setSize(sizes.width, sizes.height);
+renderer.setAnimationLoop(animate);
 renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
 
-// render loop
-const render = (time = 0) => {
-    time /= 1000;
+const clock = new THREE.Clock();
 
-    mediaStore.forEach((object) => {
-        if (object.isInView) {
-            object.material.uniforms.uResolution.value.x = window.innerWidth;
-            object.material.uniforms.uResolution.value.y = window.innerHeight;
-            object.material.uniforms.uTime.value = time;
-            object.material.uniforms.uScrollVelocity.value = scroll.scrollVelocity;
-        } else {
-            object.mesh.position.y = 2 * window.innerHeight;
-        }
-    });
+function updatePlanesPosition() {
+  webglImages.forEach((object, index) => {
+    const { width, height, top, left } = object.img.getBoundingClientRect();
 
-    // setPositions();
+    object.mesh.scale.set(width, height, 1);
 
-    renderer.render(scene, camera);
+    object.mesh.position.x = left - sizes.width / 2 + width / 2;
+    object.mesh.position.y = -top + sizes.height / 2 - height / 2;
+  });
+  totaltarget = window.scrollY / window.innerHeight;
+}
 
-    requestAnimationFrame(render);
-};
+lenis.on("scroll", updatePlanesPosition);
 
-// window resize handling
-window.addEventListener(
-    "resize",
-    debounce(() => {
-        const fov = calcFov(CAMERA_POS);
+window.addEventListener("resize", () => {
+  sizes.width = window.innerWidth;
+  sizes.height = window.innerHeight;
 
-        resizeThreeCanvas({ camera, fov, renderer });
+  renderer.setSize(sizes.width, sizes.height);
 
-        mediaStore.forEach((object) => {
-            const bounds = object.media.getBoundingClientRect();
-            object.mesh.scale.set(bounds.width, bounds.height, 1);
-            object.width = bounds.width;
-            object.height = bounds.height;
-            object.top = bounds.top + scroll.scrollY;
-            object.left = bounds.left;
-            object.isInView = bounds.top >= 0 && bounds.top <= window.innerHeight;
-        });
-    })
-);
+  camera.aspect = sizes.width / sizes.height;
 
-// on page load
-window.addEventListener("load", () => {
-    // media details
-    setMediaStore(scroll.scrollY);
-    requestAnimationFrame(render);
+  webglImages.forEach((object, index) => {
+    const { width, height, top, left } = object.img.getBoundingClientRect();
 
-    document.body.classList.remove("loading");
+    object.mesh.scale.set(width, height, 1);
+
+    object.mesh.position.x = left - sizes.width / 2 + width / 2;
+    object.mesh.position.y = -top + sizes.height / 2 - height / 2;
+  });
+
+  renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+  camera.updateProjectionMatrix();
+  updatePlanesPosition();
 });
+
+function animate() {
+  scrollY += (totaltarget - scrollY) * 0.1;
+  webglImages.forEach((object, i) => {
+    object.material.uniforms.scrollProgress.value = scrollY;
+  });
+  updatePlanesPosition();
+  renderer.render(scene, camera);
+}

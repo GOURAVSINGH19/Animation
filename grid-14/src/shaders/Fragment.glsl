@@ -1,8 +1,7 @@
-uniform vec3 uColor;
+precision highp float;
 
-varying vec2 vUv;
+out vec4 outColor;
 
-void main()
-{
-    gl_FragColor = vec3(1.0,1.0,1.0);
+void main() {
+    outColor = vec4(0.5, 0.58, 0.84, 1.0);
 }
