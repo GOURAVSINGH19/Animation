@@ -1,0 +1,74 @@
+@import "tailwindcss";
+
+:root {
+  font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
+  line-height: 1.5;
+  font-weight: 400;
+
+  color-scheme: light dark;
+  color: rgba(255, 255, 255, 0.87);
+  background-color: #242424;
+
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  --bgc: #f3ecd2;
+  --btn-pink: #ea829b;
+  --orange: #e57a41;
+  --yellow: #f3a20f;
+  --liteyellow: #f0bb0d;
+}
+
+body,
+html {
+  width: 100%;
+  height: 100vh;
+}
+
+.custom-cursor {
+  cursor: url("https://cdn.prod.website-files.com/682310547ba9eeb97324a89e/682510013bf56c1de91cc6b6_cursor-default%402x.svg")
+      2 0,
+    auto;
+}
+
+::-webkit-scrollbar{
+  display: none;
+}
+
+svg {
+  font-size: 1rem;
+}
+svg:not(:root) {
+  overflow: hidden;
+}
+.lines_svg {
+  pointer-events: none;
+  height: 100vh;
+  width: 100%;
+  min-height: 50em;
+  position: fixed;
+  top: 0;
+  left: 0;
+  overflow: hidden;
+}
+
+.rainbow-sides__right {
+  width: 20.0625em;
+  position: absolute;
+  top: 0;
+  right: -4.75em;
+}
+
+.rainbow-sides__left {
+  width: 20.0625em;
+  position: absolute;
+  bottom: -10em;
+  left: -4.75em;
+  transform: scale(-1);
+}
+
+.sun__sun-svg{
+  font-size: 1rem;
+  width: 4rem;
+}
