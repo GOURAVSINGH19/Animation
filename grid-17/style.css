@@ -1,0 +1,168 @@
+@import "tailwindcss";
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  width: 100%;
+  height: 100vh;
+  font-family: system-ui, sans-serif;
+  line-height: 1.6;
+  overflow-x: hidden;
+  background-color: #873714;
+  color: #f4a530;
+}
+
+::-webkit-scrollbar {
+  display: none;
+}
+
+.js .loading::before,
+.js .loading::after {
+  content: "";
+  position: fixed;
+  z-index: 10000;
+}
+
+.js .loading::before {
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: #fff;
+}
+
+.js .loading::after {
+  top: 50%;
+  left: 50%;
+  width: 100px;
+  height: 1px;
+  margin: 0 0 0 -50px;
+  background: #000;
+  animation: loaderAnim 1.5s ease-in-out infinite alternate forwards;
+}
+
+@keyframes loaderAnim {
+  0% {
+    transform: scaleX(0);
+    transform-origin: 0% 50%;
+  }
+  50% {
+    transform: scaleX(1);
+    transform-origin: 0% 50%;
+  }
+  50.1% {
+    transform: scaleX(1);
+    transform-origin: 100% 50%;
+  }
+  100% {
+    transform: scaleX(0);
+    transform-origin: 100% 50%;
+  }
+}
+
+.canvas_section{
+  width: 100%;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: fixed;
+  top: 0;
+  left: 0;
+  pointer-events: none;
+}
+
+.webgl {
+  max-width: 100%;
+  height: 100%;
+  z-index: 10;
+  overflow: hidden;
+}
+
+.main {
+  height: 100vh;
+}
+
+.home_setion {
+  height: 100vh;
+}
+.text_section {
+  display: flex;
+  padding: 4em 0 24px;
+}
+
+.middle_content {
+  grid-column-gap: 6px;
+  grid-row-gap: 6px;
+  flex-flow: column;
+  align-items: center;
+  display: flex;
+}
+
+.caption_text {
+  font-size: 0.8rem;
+  letter-spacing: 0.01rem;
+  margin-bottom: 0;
+  margin-top: 0.3rem;
+  font-weight: 400;
+  text-transform: uppercase;
+}
+
+.h1_text {
+  margin-left: 16px;
+  margin-right: 16px;
+  padding-top: 20px;
+  padding-bottom: 10px;
+}
+.home_heading {
+  font-size: 12rem;
+  line-height: 0.9;
+  letter-spacing: -0.3rem;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+.dot_line {
+  height: 4px;
+  width: 100%;
+  background-image: repeating-radial-gradient(
+    circle,
+    #f7ac32 0,
+    #f7ac32 2px,
+    transparent 2px,
+    transparent 10px
+  );
+  background-size: 10px 4px;
+  background-repeat: repeat-x;
+  image-rendering: pixelated;
+}
+
+.additional_text {
+  font-size: 5rem;
+  letter-spacing: -0.2rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  padding-top: 0.5rem;
+  line-height: 0.9;
+}
+
+.section_2{
+  width: 100%;
+  height: 100vh;
+}
+.section_3{
+  width: 100%;
+  height: 100vh;
+}
+.section_4{
+  width: 100%;
+  height: 100vh;
+}
+.section_5{
+  width: 100%;
+  height: 100vh;
+}
