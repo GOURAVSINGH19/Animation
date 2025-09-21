@@ -1,5 +1,5 @@
 {
-  "name": "grid-19",
+  "name": "grid-21",
   "private": true,
   "version": "0.0.0",
   "type": "module",
@@ -11,17 +11,11 @@
   },
   "dependencies": {
     "@gsap/react": "^2.1.2",
-    "@react-spring/three": "^10.0.2",
-    "@react-three/drei": "^10.7.5",
-    "@react-three/fiber": "^9.3.0",
-    "@react-three/postprocessing": "^3.0.4",
     "@tailwindcss/vite": "^4.1.13",
     "gsap": "^3.13.0",
-    "lil-gui": "^0.20.0",
     "react": "^19.1.1",
     "react-dom": "^19.1.1",
-    "tailwindcss": "^4.1.13",
-    "three": "^0.180.0"
+    "tailwindcss": "^4.1.13"
   },
   "devDependencies": {
     "@eslint/js": "^9.33.0",

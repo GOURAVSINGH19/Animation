@@ -17,13 +17,14 @@
   --btn-pink: #ea829b;
   --orange: #e57a41;
   --yellow: #f3a20f;
-  --liteyellow: #f0bb0d;
+  --lighteyellow: #f0bb0d;
 }
 
 body,
 html {
   width: 100%;
   height: 100vh;
+  font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
 .custom-cursor {

@@ -8,6 +8,16 @@ const Page = () => {
         <Topright container={container} />
         <Bottomleft container={container} />
       </div>
+      <div className="h-[3rem]"></div>
+      <div className="max-w-4xl h-full mx-auto flex flex-col justify-center items-center" style={{ lineHeight: "1", letterSpacing: "-.2rem" }}>
+        <div className="center_heading text-black font-[800] relative z-[5]">
+          <h1 className="text-[4.5rem] " ><span>Webflow</span> <span>chat,</span> <span>festival</span></h1>
+          <h1 className="text-[4.5rem]  text-center" ><span>vibes,</span> <span>good</span> <span>times.</span></h1>
+        </div>
+        <div className="tilted_text pb-[1rem] text-white font-[800] bg-[#F4AC28] w-fit h-[5rem] rotate-[-4deg] px-4 flex items-center relative z-[2] border-[1px] border-black rounded-lg">
+          <p className="text-[4.5rem] ">FlowFest is back.</p>
+        </div>
+      </div>
     </div>
   )
 }
@@ -34,13 +44,8 @@ const Topright = () => {
       className="rainbow-sides__right"
     >
       {paths.map((path, i) => {
-        // Animate dash1: full length → 0
         const dash1 = useTransform(scrollYProgress, [0, 1], [path.dash, 0]);
-
-        // Animate dash2: 0.1 → 99999
         const dash2 = useTransform(scrollYProgress, [0, 1], [0.1, 99999]);
-
-        // Combine into strokeDasharray string: `${dash1}px, ${dash2}px`
         const strokeDasharray = useMotionTemplate`${dash1}px, ${dash2}px`;
 
         return (
@@ -85,7 +90,7 @@ export const Bottomleft = () => {
     >
       {bottomLeftPaths.map((path, index) => {
         const strokeDasharray = `${path.length}px, 99999px`;
-        const strokeDashoffset = useTransform(scrollYProgress, [0, 1], [0,-path.length]);
+        const strokeDashoffset = useTransform(scrollYProgress, [0, 1], [0, -path.length]);
         return (
           <motion.path
             key={index}

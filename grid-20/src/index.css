@@ -1,0 +1,105 @@
+@import "tailwindcss";
+
+:root {
+  --height: auto;
+}
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body,
+html {
+  width: 100%;
+  height: 100vh;
+  overflow-x: hidden;
+}
+
+.main {
+  width: 100%;
+  height: 100vh;
+}
+
+.svg {
+  height: 5rem;
+}
+
+.cards_2,
+.cards_3 {
+  z-index: -1;
+  aspect-ratio: 1;
+  height: var(--height, 40px);
+  flex: none;
+  width: 40px;
+  position: absolute;
+  top: 25px;
+  overflow: visible;
+  transform-origin: 10% 30% 0;
+  transition: all 0.1s ease-in-out;
+  border-radius: 4px;
+}
+
+.cards_2 {
+  left: 10px;
+}
+
+.cards_3 {
+  left: 5px;
+}
+.card_container {
+  position: relative;
+  z-index: 1;
+  perspective: 100px;
+}
+.card_container .svg {
+  transform:rotateZ(0) translateY(0);
+}
+.cards_2,
+.cards_3 {
+  z-index: -1;
+  box-shadow: 0 0 1px #e60073, 0 0 1px #e60073, 0 0 1px #e60073;
+}
+
+.card_container:hover .svg {
+  transform: rotateZ(2deg) translateY(2px);
+  transition: 0.3s ease-in-out;
+}
+.card_container:hover .cards_2,
+.card_container:hover .cards_3 {
+  width: 40px;
+  top: -10px;
+  height: var(--height, 40px);
+}
+
+.card_container:hover .cards_2 {
+  left: 40px;
+  transform: rotate(4deg);
+}
+
+.card_container:hover .cards_3 {
+  left: 1px;
+  transform: rotate(-4deg);
+}
+
+.svg_clip {
+  width: 20px;
+  position: absolute;
+  right: 0;
+  height: 100%;
+  clip-path: polygon(0 0, 0% 100%, 100% 100%);
+  border-radius: 20px;
+}
+.svg_clip_2 {
+  width: 20px;
+  background-color: black;
+  position: absolute;
+  height: 100%;
+  right: -1px;
+  clip-path: polygon(0 0, 0% 100%, 100% 100%);
+  top: -1px;
+}
+
+.cover_shadow {
+  box-shadow: -1px -1px 3px #000 inset;
+}

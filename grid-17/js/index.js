@@ -68,31 +68,21 @@ let mixer = null;
 gltfLoader.load("/can.glb", (gltf) => {
   model = gltf.scene;
   model.scale.set(2, 2, 2);
-  const tl = gsap.timeline();
-  tl.to(model.rotation, {
-    x: .5,
-    z: -.3,
-    ease: "linear",
+  const tl = gsap.timeline({
     scrollTrigger: {
-      trigger: section2,
-      start: "center bottom",
-      end: "+=60%",
+      trigger: ".home_section",
+      start: "10% top",
+      end: "+=600%",
       scrub: true,
+      markers:true
     },
-    onUpdate: () => {
-      tl.to(model.position, {
-        z: -4,
-        y: 5,
-        opacity: 0,
-        scrollTrigger: {
-          trigger: section3,
-          start: "top bottom",
-          end: "+=100%",
-          scrub: true,
-        },
-        ease: "linear",
-      });
-    },
+  });
+  tl.to(model.rotation, {
+    x: 0.5,
+    z: -0.3,
+    ease: "linear",
+  }).to(model.rotation, {
+    rotate: "360deg",
   });
   scene.add(model);
   document.body.classList.remove("loading");
